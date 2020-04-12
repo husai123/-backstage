@@ -49,7 +49,20 @@ layui.use(['table','layer','jquery'], function(){
                 })
             });
         } else if(layEvent === 'edit'){
-            layer.msg('编辑操作');
+            //通过这种方式弹出的层，每当它被选择，就会置顶。
+            // layer.open({
+            //     type: 2,
+            //     shade: true,
+            //     area: ['600px','500px'],
+            //     maxmin: false,
+            //     anim:1,
+            //     title:"修改数据",
+            //     content: ['/forward/saveupdate','no'],
+            //     zIndex: layer.zIndex, //重点1
+            //     success: function(layero){
+            //         layer.setTop(layero); //重点2
+            //     }
+            // });
         }
     });
 
