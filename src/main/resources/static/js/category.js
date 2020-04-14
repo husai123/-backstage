@@ -49,20 +49,31 @@ layui.use(['table','layer','jquery'], function(){
                 })
             });
         } else if(layEvent === 'edit'){
-            //通过这种方式弹出的层，每当它被选择，就会置顶。
-            // layer.open({
-            //     type: 2,
-            //     shade: true,
-            //     area: ['600px','500px'],
-            //     maxmin: false,
-            //     anim:1,
-            //     title:"修改数据",
-            //     content: ['/forward/saveupdate','no'],
-            //     zIndex: layer.zIndex, //重点1
-            //     success: function(layero){
-            //         layer.setTop(layero); //重点2
-            //     }
-            // });
+            layer.open({
+                type: 2,
+                shade: true,
+                area: ['600px', '400px'],
+                maxmin: true,
+                anim: 1,
+                title: "修改信息",
+                content: ['/forward/saveupdate', 'no'],
+                zIndex: layer.zIndex, //重点1
+                success: function (layero) {
+                    layer.setTop(layero); //重点2
+                    //获得弹出层的主体
+                    var body = layui.layer.getChildFrame("body");
+                    //给主体赋值
+                    body.find("[name='case_closed_id']").val(data.case_closed_id);
+                    body.find("[name='emp_id']").val(data.emp_id);
+                    body.find("[name='case_closed_time']").val(data.case_closed_time);
+                    body.find("[name='case_closed_reason']").val(data.case_closed_reason);
+                    body.find("[name='case_closed_comment']").val(data.case_closed_comment);
+                    body.find("[name='compensate_case_id']").val(data.compensate_case_id);
+                    // body.find("[name='case_closed_time']").val(format(data.case_closed_time,'yyyy-MM-dd'));
+                    // body.find("[name='bir']").val(format(data.bir, 'yyyy-MM-dd'));
+                    // body.find("[value='" + data.gender + "']").attr("checked", true);
+                }
+            });
         }
     });
 

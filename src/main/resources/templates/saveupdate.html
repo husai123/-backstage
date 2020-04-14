@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-<form class="layui-form" id="updateForm" action="">
+<form class="layui-form" id="frm" action="">
     <input type="hidden" name="case_closed_id">
     <div class="layui-form-item">
         <label class="layui-form-label">销案员编号</label>
@@ -25,7 +25,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">销案时间</label>
         <div class="layui-input-inline">
-            <input class="layui-input"  name="case_closed_time"  id="test5" type="text" placeholder="yyyy-MM-dd HH:mm:ss">
+            <input class="layui-input"  name="case_closed_time"  id="test5"  type="text" placeholder="yyyy-MM-dd">
         </div>
     </div>
 
@@ -50,51 +50,37 @@
     <br>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formDemo">添加 </button>
+            <button class="layui-btn" lay-submit lay-filter="formDemo">修改 </button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
 </form>
 <script>
-    // layui.use(['form','jquery','layer','laydate'], function(){
-    //     var form = layui.form;
-    //     var $ = layui.$;
-    //     var layer  = layui.layer;
-    //     var laydate = layui.laydate;
-    //     //执行一个laydate实例
-    //     laydate.render({
-    //         elem: '#test5' //指定元素
-    //     });
-    //
-    //     //监听提交
-    //     form.on('submit(updateForm)', function(data){
-    //         data.field["_method"]="put";
-    //         $.ajax({
-    //             url:'user/'+data.field.id,
-    //             dataType:'json',
-    //             data:data.field,
-    //             type:'post',
-    //             success:function (d) {
-    //                 if(d.code==0){
-    //                     alert("修改成功");
-    //                     layer.close(updateWindow);
-    //                     layui.table.reload('userTable', {
-    //                         url: 'users',
-    //                     });
-    //                 }else{
-    //                     console.log(d.msg);
-    //                 }
-    //             }
-    //         });
-    //         return false;
-    //     })
-    //
-    // });
+    layui.use(['form','jquery','layer','laydate'], function(){
+        var form = layui.form;
+        var $ = layui.$;
+        var layer  = layui.layer;
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test5' //指定元素
+        });
 
-
-
-
-
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            $.ajax({
+                url:"http://api.insurance.com/api/item/category/update",
+                type:"put",
+                data:$("#frm").serialize(),
+                success:function(data){
+                    layer.alert("修改成功",function () {
+                        window.parent.location.reload();
+                    });
+                }
+            });
+            return false;
+        });
+    });
 </script>
 
 

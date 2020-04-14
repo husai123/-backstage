@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/layui/css/layui.css}" type="text/css" rel="stylesheet">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/goods.js}"></script>
+    <style type="text/css">
+        tr,td,th{
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="margin-left: 100px;">
+<Br>
+<form class="layui-form" id="frm" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">损失财产名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="property_name"   placeholder="请输入损失财产名称" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">物主</label>
+        <div class="layui-input-inline">
+            <input type="text" name="owner"  placeholder="请输入物主" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系方式</label>
+        <div class="layui-input-inline">
+            <input type="text" name="phone"  placeholder="请输入联系方式" autocomplete="off" class="layui-input">
+        </div>
+
+
+        <label class="layui-form-label">查勘地点</label>
+        <div class="layui-input-inline">
+            <input type="text" name="location"  placeholder="请输入查勘地点" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">损失描述</label>
+        <div class="layui-input-inline">
+            <input type="text" name="loss_description"  placeholder="请输入损失描述" autocomplete="off" class="layui-input">
+        </div>
+
+
+        <label class="layui-form-label">定损备注</label>
+        <div class="layui-input-inline">
+            <input type="text" name="fixed_loss_remarks"  placeholder="请输入定损备注" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">定损员编号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="emp_id"  placeholder="请输入定损员编号" autocomplete="off" class="layui-input">
+        </div>
+
+
+        <label class="layui-form-label">调度编号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="schedule_id"  placeholder="请输入调度编号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">定损提交时间</label>
+        <div class="layui-input-inline">
+            <input class="layui-input"  name="submit_time"  id="test6" type="text" placeholder="定损提交时间">
+        </div>
+
+
+        <label class="layui-form-label">流程实例编号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="instance_id"  placeholder="请输入流程实例编号" autocomplete="off" class="layui-input">
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">添加 </button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+
+
+    </div>
+</form>
+<script>
+
+    layui.use(['form','jquery','layer','laydate'], function(){
+        var form = layui.form;
+        var $ = layui.$;
+        var layer  = layui.layer;
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test6' //指定元素
+        });
+
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            $.ajax({
+                url:"http://api.insurance.com/api/item/material/save",
+                type:"post",
+                data:$("#frm").serialize(),
+                success:function (data) {
+                    //新增成功以后，刷新父窗口,并且关闭当前页面
+                    layer.alert("添加成功",function () {
+                        window.parent.location.reload();
+                    });
+                }
+            });
+            return false;
+        })
+
+    });
+</script>
+</body>
+</html>

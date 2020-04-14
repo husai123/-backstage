@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/layui/css/layui.css}" type="text/css" rel="stylesheet">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/robbery}"></script>
+    <style type="text/css">
+        tr,td,th{
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="margin-left: 100px;">
+<Br>
+<form class="layui-form" id="frm" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">车牌号码</label>
+        <div class="layui-input-inline">
+            <input type="text" name="car_number"   placeholder="请输入/车牌号码" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">车牌颜色</label>
+        <div class="layui-input-inline">
+            <input type="text" name="license_plate_color"  placeholder="请输入车牌颜色" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">车辆品牌</label>
+        <div class="layui-input-inline">
+            <input type="text" name="car_brand"  placeholder="请输入车辆品牌" autocomplete="off" class="layui-input">
+        </div>
+
+
+        <label class="layui-form-label">车型</label>
+        <div class="layui-input-inline">
+            <input type="text" name="car_type"  placeholder="请输入车型" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">新车购置价</label>
+        <div class="layui-input-inline">
+            <input type="text" name="pay_price"  placeholder="请输入新车购置价" autocomplete="off" class="layui-input">
+        </div>
+
+
+        <label class="layui-form-label">已行驶公里数</label>
+        <div class="layui-input-inline">
+            <input type="text" name="driving_kilometre"  placeholder="请输入已行驶公里数" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">实际使用年限</label>
+        <div class="layui-input-inline">
+            <input type="text" name="service_life"  placeholder="请输入实际使用年限" autocomplete="off" class="layui-input">
+        </div>
+
+
+        <label class="layui-form-label">定损备注</label>
+        <div class="layui-input-inline">
+            <input type="text" name="fixed_loss_comment"  placeholder="请输入定损备注" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">定损员编号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="emp_id"  placeholder="请输入定损员编号" autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">定损提交时间</label>
+        <div class="layui-input-inline">
+            <input class="layui-input"  name="submit_time"  id="test5" type="text" placeholder="定损提交时间">
+        </div>
+
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">调度表编号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="schedule_id"  placeholder="请输入调度表编号" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">流程实例编号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="instance_id"  placeholder="请输入流程实例编号" autocomplete="off" class="layui-input">
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">添加 </button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+
+    layui.use(['form','jquery','layer','laydate'], function(){
+        var form = layui.form;
+        var $ = layui.$;
+        var layer  = layui.layer;
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test5' //指定元素
+        });
+
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            $.ajax({
+                url:"http://api.insurance.com/api/item/robbery/save",
+                type:"post",
+                data:$("#frm").serialize(),
+                success:function (data) {
+                    //新增成功以后，刷新父窗口,并且关闭当前页面
+                    layer.alert("添加成功",function () {
+                        window.parent.location.reload();
+                    });
+                }
+            });
+            return false;
+        })
+
+    });
+</script>
+</body>
+</html>
