@@ -16,11 +16,11 @@
             var tel =  $("[name='phone']").val();
             //发出ajax请求,向用户中心，注册新用户
             $.ajax({
-                url:"http://api.insurance.com/api/customer/employee/register",
+                url:"http://api.insurance.com/api/user/employee/register",
                 type:"post",
                 data:{"username":name,"password":pwd,"phone":tel},
                 success:function () {
-                    alert("注册成功")
+                    setTimeout("location.href='index'");
                 },
                 error:function () {
                     alert("注册失败")

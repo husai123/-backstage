@@ -11,7 +11,7 @@ public class InsuranceController {
     //先进跳转页面
     @GetMapping("/item")
     public String init() {
-        return "item";
+        return "index";
     }
 
     @GetMapping("/forward/{target}")
