@@ -76,7 +76,6 @@
                  type:"post",
                  data:$("#frm").serialize(),
                  success:function (data) {
-                     alert(data)
                      //新增成功以后，刷新父窗口,并且关闭当前页面
                      layer.alert("添加成功",function () {
                          window.parent.location.reload();
