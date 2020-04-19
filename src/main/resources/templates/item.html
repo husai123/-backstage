@@ -19,23 +19,13 @@
 
         axios.get("http://api.insurance.com/api/userauth/verify")
             .then(function (value) {
-                // alert("已登录");
-                //得到授权中心返回的载荷：userinfo,里面包含了id,username
-                //
                 var info = value.data;//得到服务端返回的结果
-
-         alert(info.username);
-
-
-
-
-                // var msg= "<b style='color: white'>欢迎您回来，"+userinfo.username+"<b/>";
-                //
-                // //替换显示的内容
-                // $("#loginDiv").html(msg);
+         // alert(info.username);
+                var msg= "<b style='color: white'>欢迎您回来，"+info.username+"<b/>";
+                //替换显示的内容
+                $("#loginDiv").html(msg);
             })
             .catch(function (reason) {
-                      alert("未登录")
             });
 
     });
@@ -77,7 +67,7 @@
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="">退了</a></li>
+            <li class="layui-nav-item"><a th:href="@{/forward/index}">退了</a></li>
         </ul>
     </div>
 
