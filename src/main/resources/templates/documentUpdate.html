@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/layui/css/layui.css}" type="text/css" rel="stylesheet">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/goods.js}"></script>
+    <style type="text/css">
+        tr,td,th{
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="margin-left: 100px;">
+<Br>
+<form class="layui-form" id="frm" action="">
+    <input type="hidden" name="documents_id">
+    <div class="layui-form-item">
+        <label class="layui-form-label">单证名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="documents_name"   placeholder="请输入单证名称" autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">险种类型</label>
+        <div class="layui-input-inline" id="insurance_id">
+            <select name="insurance_id" lay-verify="required">
+                <option value=""></option>
+                <option value="4acb2bae-7f1f-11ea-825b-c85b76b0bf1c">车辆损失险</option>
+                <option value="4acf07dc-7f1f-11ea-825b-c85b76b0bf1c">第三方责任险</option>
+                <!--<c:forEach items="${requestScope.maps}" var="m">
+                    <option value="${m.id}">${m.name}</option>
+                </c:forEach>-->
+            </select>
+        </div>
+
+        <label class="layui-form-label">损失类型</label>
+        <div class="layui-input-inline" id="type_id">
+            <select name="type_id" lay-verify="required">
+                <option value=""></option>
+                <option value="1">人损</option>
+                <option value="2">物损</option>
+                <option value="3">盗损</option>
+                <option value="4">车损</option>
+                <!--<c:forEach items="${requestScope.maps}" var="m">
+                    <option value="${m.id}">${m.name}</option>
+                </c:forEach>-->
+            </select>
+        </div>
+
+        <label class="layui-form-label">是否必须</label>
+        <div class="layui-input-inline" id="is_requried">
+            <select name="is_requried" lay-verify="required">
+                <option value=""></option>
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">修改</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+
+    layui.use(['form','jquery','layer','laydate'], function(){
+        var form = layui.form;
+        var $ = layui.$;
+        var layer  = layui.layer;
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test6' //指定元素
+        });
+
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            $.ajax({
+                url:"http://api.insurance.com/api/item/document/update",
+                type:"put",
+                data:$("#frm").serialize(),
+                success:function (data) {
+                    //新增成功以后，刷新父窗口,并且关闭当前页面
+                    layer.alert("修改成功",function () {
+                        window.parent.location.reload();
+                    });
+                }
+            });
+            return false;
+        })
+
+    });
+</script>
+</body>
+</html>
