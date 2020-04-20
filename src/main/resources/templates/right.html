@@ -1,11 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{/js/echarts.js}"></script>
+    <link th:href="@{/layui/css/layui.css}" type="text/css" rel="stylesheet">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+
 </head>
 <body>
 <h1>欢迎使用insurance后台管理</h1>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;display:inline-block;margin-top: 100px"></div>
+<div id="main1" style="width: 600px;height:400px;display:inline-block;margin-top: 100px;margin-left: 100px"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    $.ajax({
+        url:"http://api.insurance.com/api/backstage/selectone/",
+        type:"GET",
+        //data:{"uname":uname,"pwd":pwd},
+        dataType:"json",
+        success:function (data) {
+            var aa=[];
+            var bb=[];
+            if (data){
+                for (var i=0 ;i<data.length;i++){
+                    aa.push(data[i].month+'月');
+                }
+                for (var i=0 ;i<data.length;i++){
+                    bb.push(data[i].cut);
+                }
+            }
+            var option = {
+                title: {
+                    text: '2020每月保险销售统计'
+                },
+                tooltip: {},
+                legend: {
+                    data:['统计']
+                },
+                xAxis: {
+                    data:aa
+                },
+                yAxis: {
+                },
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data:bb
+                }]
+            };
 
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+
+    })
+    // 指定图表的配置项和数据
+
+    var myChart1 = echarts.init(document.getElementById('main1'));
+
+    $.ajax({
+        url:"http://api.insurance.com/api/backstage/selectone/",
+        type:"GET",
+        //data:{"uname":uname,"pwd":pwd},
+        dataType:"json",
+        success:function (data) {
+            var aa=[];
+            var bb=[];
+            if (data){
+                for (var i=0 ;i<data.length;i++){
+                    aa.push(data[i].month+"月");
+                }
+                for (var i=0 ;i<data.length;i++){
+                    bb.push({value:data[i].cut,name:data[i].month+'月'});
+                }
+            }
+            var option1 = {
+                title: {
+                    text: '2020每月保险销售统计',
+                    subtext: '统计',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: aa
+                },
+                series: [
+                    {
+                        name: '访问来源',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data:bb
+
+                            // {value: 335, name: '直接访问'},
+                            // {value: 310, name: '邮件营销'},
+                            // {value: 234, name: '联盟广告'},
+                            // {value: 135, name: '视频广告'},
+                            // {value: 1548, name: '搜索引擎'}
+                        ,
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart1.setOption(option1);
+        }
+
+    })
+</script>
 </body>
 </html>
