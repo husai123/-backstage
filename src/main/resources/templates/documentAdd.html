@@ -25,11 +25,11 @@
         </div>
 
         <label class="layui-form-label">险种类型</label>
-        <div class="layui-input-inline" id="insurance_id">
-            <select name="insurance_id" lay-verify="required">
+        <div class="layui-input-inline" id="insurance_type">
+            <select id="insurance_id" name="insurance_id" lay-verify="required">
                 <option value=""></option>
-                <option value="4acb2bae-7f1f-11ea-825b-c85b76b0bf1c">车辆损失险</option>
-                <option value="4acf07dc-7f1f-11ea-825b-c85b76b0bf1c">第三方责任险</option>
+                <!--<option value="4acb2bae-7f1f-11ea-825b-c85b76b0bf1c">车辆损失险</option>
+                <option value="4acf07dc-7f1f-11ea-825b-c85b76b0bf1c">第三方责任险</option>-->
                 <!--<c:forEach items="${requestScope.maps}" var="m">
                     <option value="${m.id}">${m.name}</option>
                 </c:forEach>-->
@@ -37,13 +37,13 @@
         </div>
 
         <label class="layui-form-label">损失类型</label>
-        <div class="layui-input-inline" id="type_id">
-            <select name="type_id" lay-verify="required">
+        <div class="layui-input-inline" id="type_type">
+            <select id="type_id" name="type_id" lay-verify="required">
                 <option value=""></option>
-                <option value="1">人损</option>
+                <!--<option value="1">人损</option>
                 <option value="2">物损</option>
                 <option value="3">盗损</option>
-                <option value="4">车损</option>
+                <option value="4">车损</option>-->
                 <!--<c:forEach items="${requestScope.maps}" var="m">
                     <option value="${m.id}">${m.name}</option>
                 </c:forEach>-->
@@ -51,8 +51,8 @@
         </div>
 
         <label class="layui-form-label">是否必须</label>
-        <div class="layui-input-inline" id="is_requried">
-            <select name="is_requried" lay-verify="required">
+        <div class="layui-input-inline" id="is_requried_type">
+            <select id="is_requried" name="is_requried" lay-verify="required">
                 <option value=""></option>
                 <option value="1">是</option>
                 <option value="0">否</option>
@@ -69,6 +69,8 @@
 </form>
 <script>
 
+
+
     layui.use(['form','jquery','layer','laydate'], function(){
         var form = layui.form;
         var $ = layui.$;
@@ -79,6 +81,50 @@
             elem: '#test6' //指定元素
         });
 
+        $(function getTypeList() {
+            $.ajax({
+                url: "http://api.insurance.com/api/item/insurance/getType",
+                // data: params,
+                async: true,
+                dataType: "json",
+                success: function (data, htmlData) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        /*console.log(data);*/
+                        var value = data[i].insurance_id;
+                        var lable = data[i].insurance_name;
+                        $('#insurance_id').append("<option value="+value+">"+lable+"</option>");
+                    }
+                    layui.form.render();
+
+                },
+                error: function (data) {
+                    $.gridUnLoading({message: "下拉框数据加载失败"});
+                }
+            });
+        })
+
+        $(function getTypeList2() {
+            $.ajax({
+                url: "http://api.insurance.com/api/item/Date_dictionary/getType",
+                // data: params,
+                async: true,
+                dataType: "json",
+                success: function (data, htmlData) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        /*console.log(data);*/
+                        var value = data[i].id;
+                        var lable = data[i].show_value;
+                        $('#type_id').append("<option value="+value+">"+lable+"</option>");
+                    }
+                    layui.form.render();
+                },
+                error: function (data) {
+                    $.gridUnLoading({message: "下拉框数据加载失败"});
+                }
+            });
+        })
 
         //监听提交
         form.on('submit(formDemo)', function(data){

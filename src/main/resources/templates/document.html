@@ -9,11 +9,38 @@
     <script th:src="@{/js/document.js}"></script>
 </head>
 <body>
+
+
+<form class="layui-form" action="" id="frm">
+    <div class="layui-form-item">
+        <label class="layui-form-label">损失类型</label>
+        <div class="layui-input-inline" id="type_type">
+            <select id="type_id" name="type_id" lay-verify="required">
+                <option  value=""></option>
+                <!--<option value="1">人损</option>
+                <option value="2">物损</option>
+                <option value="3">盗损</option>
+                <option value="4">车损</option>-->
+            </select>
+        </div>
+
+        <label class="layui-form-label">险种类型</label>
+        <div class="layui-input-inline" id="insurance_type">
+            <select id="insurance_id" name="insurance_id" lay-verify="required">
+                <option value=""></option>
+                <!--<option value="4acb2bae-7f1f-11ea-825b-c85b76b0bf1c">车辆损失险</option>
+                <option value="4acf07dc-7f1f-11ea-825b-c85b76b0bf1c">第三方责任险</option>-->
+            </select>
+        </div>
+
+        <button type="button" class="layui-btn layui-btn-normal" id="find">查询</button>
+    </div>
+</form>
+
 <table id="demo" lay-filter="test"></table>
 
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>

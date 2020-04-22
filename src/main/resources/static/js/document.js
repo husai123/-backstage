@@ -12,10 +12,87 @@
         })
     }
 });*/
-layui.use(['table','layer','jquery'], function(){
+
+
+
+
+layui.use(['form','table','layer','jquery'], function(){
     var table = layui.table;
     var layer = layui.layer;
+    var form = layui.form;
     var $ = layui.$;
+
+    /************************ 动态加载下拉框 *************************/
+    $(function getTypeList() {
+        $.ajax({
+            url: "http://api.insurance.com/api/item/insurance/getType",
+            // data: params,
+            async: true,
+            dataType: "json",
+            success: function (data, htmlData) {
+
+                for (var i = 0; i < data.length; i++) {
+                    /*console.log(data);*/
+                    var value = data[i].insurance_id;
+                    var lable = data[i].insurance_name;
+                    $('#insurance_id').append("<option value="+value+">"+lable+"</option>");
+                }
+                layui.form.render();
+            },
+            error: function (data) {
+                $.gridUnLoading({message: "下拉框数据加载失败"});
+            }
+        });
+    })
+
+    $(function getTypeList2() {
+        $.ajax({
+            url: "http://api.insurance.com/api/item/Date_dictionary/getType",
+            // data: params,
+            async: true,
+            dataType: "json",
+            success: function (data, htmlData) {
+
+                for (var i = 0; i < data.length; i++) {
+                    /*console.log(data);*/
+                    var value = data[i].id;
+                    var lable = data[i].show_value;
+                    $('#type_id').append("<option value="+value+">"+lable+"</option>");
+                }
+                layui.form.render();
+            },
+            error: function (data) {
+                $.gridUnLoading({message: "下拉框数据加载失败"});
+            }
+        });
+    })
+
+    $("#find").click(function () {
+        alert($("#frm").serialize());
+        console.log($("#frm").serialize());
+        table.render({
+            elem: '#demo'
+            ,url: 'http://api.insurance.com/api/item/document/FindByInsurance?'+ $("#frm").serialize()//数据接口
+           /* ,url: 'http://api.insurance.com/api/item/document/All'//数据接口*/
+            /*,data:$("#frm").serialize()*/
+            ,page: true //开启分页
+            ,limit:5 //每一页显示5条数据
+            ,limits:[1,2,3,5,10,20,30,50] //列表显示的每一页显示的条数
+            ,toolbar:"default" //显示工具头信息
+            ,cols: [[ //表头
+                {field: 'no', type:"checkbox", width:"10%", sort: true, fixed: 'left'}
+                ,{field: 'documents_id', title: '单证编号', width:"0%",align:"center",hide:true }
+                ,{field: 'documents_name', title: '单证名称', width:"20%",align:"center", sort: true}
+                ,{field: 'insurance_id', title: '险种类别id', width:"0%",align:"center",hide:true }
+                ,{field: 'insurance_name',align:"center", title: '险种类别', width:"20%"}
+                ,{field: 'type_id', title: '损失类型id', width:"0%",align:"center",hide:true }
+                ,{field: 'type_name',align:"center", title: '损失类型', width:"20%"}
+                ,{field: 'is_requried',align:"center", title: '是否必须(数字)', width:"0%",hide: true}
+                ,{field: 'is_requriedView',align:"center", title: '是否必须', width:"15%"}
+                ,{field: 'op', title: '操作',align:"center", width: "15%",templet:"#barDemo"}
+            ]]
+        });
+    })
 
     //第一个实例
     table.render({
@@ -81,11 +158,11 @@ layui.use(['table','layer','jquery'], function(){
                     body.find("[name='documents_id']").val(data.documents_id);
                     body.find("[name='documents_name']").val(data.documents_name);
                     var select1 = 'dd[lay-value=' + data.insurance_id + ']';
-                    body.find("[id='insurance_id']").find(select1).click();
+                    body.find("[id='insurance_type']").find(select1).click();
                     var select2 = 'dd[lay-value=' + data.type_id + ']';
-                    body.find("[id='type_id']").find(select2).click();
+                    body.find("[id='type_type']").find(select2).click();
                     var select3 = 'dd[lay-value=' + data.is_requried + ']';
-                    body.find("[id='is_requried']").find(select3).click();
+                    body.find("[id='is_requried_type']").find(select3).click();
                 }
             });
         }
@@ -132,6 +209,7 @@ layui.use(['table','layer','jquery'], function(){
                 break;
         };
     });
+
 
 
 });
