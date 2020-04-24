@@ -68,7 +68,7 @@ layui.use(['form','table','layer','jquery'], function(){
     })
 
     $("#find").click(function () {
-        alert($("#frm").serialize());
+       /* alert($("#frm").serialize());*/
         console.log($("#frm").serialize());
         table.render({
             elem: '#demo'

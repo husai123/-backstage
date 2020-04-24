@@ -82,6 +82,18 @@ layui.use(['table','layer','jquery'], function(){
             });
         } else if(layEvent === 'refuse'){
             layer.msg('不通过审核');
+            var body = layui.layer.getChildFrame("body");
+            var human_injury_damage_id = data.human_injury_damage_id;
+            $.ajax({
+                url: "http://api.insurance.com/api/item/humanVerify/refuse?Human_injury_damage_id="+human_injury_damage_id,
+                // data: params,
+                async: true,
+                dataType: "json",
+                success: function (data1, htmlData) {
+                    layui.form.render();
+                }
+            });
+            window.location.reload();
         }
     });
 
